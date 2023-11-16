@@ -54,10 +54,19 @@ public class ContactDao
 	}
 	
 //	연락처 추가 메소드 
-	public void updateContacts(int contact_id, String name, String phone) throws Exception
+	public void updateContacts(int contact_id, String name, String phone, String address, int groupno) throws Exception
 	{
+//		int groupno;
+//		if(groupnm.equals("친구"))
+//		{
+//			groupno = 1;
+//		}
+//		else
+//		{
+//			groupno = 2;
+//		}
 		Connection conn 		= open();
-		String sql = "UPDATE CONTACT SET name = '"+name+"', phone = '"+phone+"'	WHERE contact_id = '"+contact_id+"'";
+		String sql = "UPDATE CONTACT SET name = '"+name+"', phone = '"+phone+"', address = '"+address+"', groupno = '"+groupno+"'	WHERE contact_id = '"+contact_id+"'";
 		
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);

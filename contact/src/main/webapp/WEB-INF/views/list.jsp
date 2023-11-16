@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html lang="en" data-bs-theme="dark">
 <head>
@@ -189,7 +189,16 @@ table.table td .add {
 			$(".add-new").removeAttr("disabled");
 	    });
 	});
+	
+	
 
+	</script>
+	
+	<script type="text/javascript">
+	 $('.ls-modal').on('click', function(e){
+		  e.preventDefault();
+		  $('#modal').modal('show').find('.modal-body').load($(this).attr('href'));
+		});
 	</script>
 
 <link rel="stylesheet"
@@ -304,7 +313,7 @@ table.table td .add {
 </head>
 <body>
 
-
+	
 
 	<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
@@ -546,9 +555,9 @@ table.table td .add {
 					</div>
 					<div
 						class="col-sm-2 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-						<button type="button" class="btn btn-info add-new">
-							<i class="fa fa-plus"></i> Add New
-						</button>
+					
+					<button type="submit" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Add New</button>								
+						
 					</div>
 				</div>
 
@@ -565,6 +574,7 @@ table.table td .add {
 
 							</tr>
 						</thead>
+						
 						<tbody>
 							<c:forEach var="contact" items="${listContact }">
 								<tr>
@@ -574,18 +584,77 @@ table.table td .add {
 									<td>${contact.groupnm }</td>
 									<th>${contact.contact_regdt }</th>
 									<td>
-										<a href="/contact/editContact/${contact.contact_id }" class="add" title="Add" data-toggle="tooltip"><i
-										class="material-icons">&#xE03B;</i></a> 
-										
-										<a class="edit" title="Edit" data-toggle="tooltip"><i
-										class="material-icons">&#xE254;</i></a> 
-										
-										<a href="contact?action=deleteContacts&contact_id=${contact.contact_id }" onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){ location.href='contact?action=listContacts'; return false; }" class="delete" title="Delete" data-toggle="tooltip" ><i
-										class="material-icons">&#xE872;</i></a> 
-										<!-- <a onclick="test()" class="delete" title="Delete" data-toggle="tooltip" ><i
-										class="material-icons">&#xE872;</i></a> -->
+							
+	<button type="submit" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modal">보기</button>								
+
+
 									</td>
 								</tr>
+<div class="modal fade" id="modal" >
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+		
+            <!-- header title -->
+				<h4 class="modal-title">회원 수정</h4>
+             <!-- 닫기(x) 버튼 -->
+					<button type="button" class="close" data-dismiss="modal">×</button>
+			
+			</div>
+						
+			<!-- body -->
+			<div class="modal-body">
+			
+			<div class="col-md-7 col-lg-8">
+ 	<form method="get" action="/contact/editContact/${contact.contact_id }"  class="needs-validation" novalidate="">
+			<div class="col-sm-12">
+              <label for="name" class="form-label">이름</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="이름" value="" required="">
+              <div class="invalid-feedback">
+                이름은 필수입니다
+              </div>
+            </div>
+			
+			<div class="col-12">
+              <label for="phone" class="form-label">전화번호</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="전화번호" required="">
+              <div class="invalid-feedback">
+                  전화번호는 필수입니다
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <label for="address" class="form-label">주소</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" name="address" id="address" placeholder="주소" required="">
+              <div class="invalid-feedback">
+                  주소는 필수입니다
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <label for="groupno" class="form-label">그룹</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" name="groupno" id="groupno" placeholder="그룹" required="">
+              <div class="invalid-feedback">
+                  그룹은 필수입니다
+                </div>
+              </div>
+            </div>
+            
+            <hr>
+            
+            <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 수정</button>
+		</form>
+			</div>
+			</div>			
+			<!-- Footer -->
+		</div>
+	</div>
+	</div>
 							</c:forEach>
 
 						</tbody>

@@ -68,14 +68,13 @@ public class ContactController
 		return "redirect:/contact/list";
 	}
 	
+	// 성공 메소드
 	@GetMapping("/editContact/{contact_id}")
 	public String editContact(ContactDto dto, @PathVariable int contact_id, Model model)
-	{	
-//		model.addAttribute("account_id", dto.getAccount_id());
-		
+	{		
 		try
 		{
-			dao.updateContacts(contact_id, dto.getName(), dto.getPhone());
+			dao.updateContacts(contact_id, dto.getName(), dto.getPhone(), dto.getAddress(), dto.getGroupno());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -107,8 +106,6 @@ public class ContactController
 		return "register";
 	}
 	
-	
-	// 생성 추가 실험 v1
 	
 	
 }
