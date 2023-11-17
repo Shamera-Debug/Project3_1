@@ -4,7 +4,7 @@
 
 <html lang="en" data-bs-theme="dark">
 <head>
-<script src="/resources/assets/js/color-modes.js"></script>
+<script src="/bootstrap/assets/js/color-modes.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
@@ -136,63 +136,20 @@ table.table td .add {
 </style>
 
 <script>
-	$(document).ready(function(){
-		$('[data-toggle="tooltip"]').tooltip();
-		var actions = $("table td:last-child").html();
-		// Append table with add row form on add new button click
-	    $(".add-new").click(function(){
-			$(this).attr("disabled", "disabled");
-			var index = $("table tbody tr:last-child").index();
-	        var row = '<tr>' +
-	            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-	            '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
-	            '<td><input type="text" class="form-control" name="address" id="address"></td>' +
-	            '<td><input type="text" class="form-control" name="groupnm" id="groupnm"></td>' +
-				'<td>' + actions + '</td>' +
-	        '</tr>';
-	    	$("table").append(row);		
-			$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
-	        $('[data-toggle="tooltip"]').tooltip();
-	    });
-		// Add row on add button click
-		$(document).on("click", ".add", function(){
-			var empty = false;
-			var input = $(this).parents("tr").find('input[type="text"]');
-	        input.each(function(){
-				if(!$(this).val()){
-					$(this).addClass("error");
-					empty = true;
-				} else{
-	                $(this).removeClass("error");
-	            }
-			});
-			$(this).parents("tr").find(".error").first().focus();
-			if(!empty){
-				input.each(function(){
-					$(this).parent("td").html($(this).val());
-				});			
-				$(this).parents("tr").find(".add, .edit").toggle();
-				$(".add-new").removeAttr("disabled");
-			}		
-	    });
-		// Edit row on edit button click
-		$(document).on("click", ".edit", function(){		
-	        $(this).parents("tr").find("td:not(:last-child)").each(function(){
-				$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
-			});		
-			$(this).parents("tr").find(".add, .edit").toggle();
-			$(".add-new").attr("disabled", "disabled");
-	    });
-		// Delete row on delete button click
-		$(document).on("click", ".delete", function(){
-	        $(this).parents("tr").remove();
-			$(".add-new").removeAttr("disabled");
-	    });
-	});
-	
-	
-
-	</script>
+	var contact_id = "";
+	var account_id = "";
+    $(document).ready(function() {     
+        $('#modalEdit').on('show.bs.modal', function(event) {          
+            contact_id = $(event.relatedTarget).data('contact_id');
+            account_id = $(event.relatedTarget).data('account_id');
+        });
+    });
+    
+    function modalEdit(account_id, contact_id)
+    {
+    	location.href='/contact/editContact/'+account_id+'/'+contact_id;
+    }
+</script>
 	
 	<script type="text/javascript">
 	 $('.ls-modal').on('click', function(e){
@@ -204,23 +161,23 @@ table.table td .add {
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
-<link href="/resources/dist/css/bootstrap.min.css" rel="stylesheet"
+<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	crossorigin="anonymous">
 
 <!-- Favicons -->
 <link rel="apple-touch-icon"
-	href="/resources/assets/img/favicons/apple-touch-icon.png"
+	href="/bootstrap/assets/img/favicons/apple-touch-icon.png"
 	sizes="180x180">
-<link rel="icon" href="/resources/assets/img/favicons/favicon-32x32.png"
+<link rel="icon" href="/bootstrap/assets/img/favicons/favicon-32x32.png"
 	sizes="32x32" type="image/png">
-<link rel="icon" href="/resources/assets/img/favicons/favicon-16x16.png"
+<link rel="icon" href="/bootstrap/assets/img/favicons/favicon-16x16.png"
 	sizes="16x16" type="image/png">
-<link rel="manifest" href="/resources/assets/img/favicons/manifest.json">
+<link rel="manifest" href="/bootstrap/assets/img/favicons/manifest.json">
 <link rel="mask-icon"
-	href="/resources/assets/img/favicons/safari-pinned-tab.svg"
+	href="/bootstrap/assets/img/favicons/safari-pinned-tab.svg"
 	color="#712cf9">
-<link rel="icon" href="/resources/assets/img/favicons/favicon.ico">
+<link rel="icon" href="/bootstrap/assets/img/favicons/favicon.ico">
 <meta name="theme-color" content="#712cf9">
 
 
@@ -309,7 +266,7 @@ table.table td .add {
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css"
 	rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="/resources/dashboard/dashboard.css" rel="stylesheet">
+<link href="/bootstrap/dashboard/dashboard.css" rel="stylesheet">
 </head>
 <body>
 
@@ -556,47 +513,14 @@ table.table td .add {
 					<div
 						class="col-sm-2 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					
-					<button type="submit" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Add New</button>								
-						
-					</div>
-				</div>
-
-				<div class="table-responsive small">
-					<table class="table table-striped table-sm">
-						<thead>
-							<tr>
-								<th scope="col">이름</th>
-								<th scope="col">전화번호</th>
-								<th scope="col">주소</th>
-								<th scope="col">그룹</th>
-								<th scope="col">추가일</th>
-								<th scope="col">옵션</th>
-
-							</tr>
-						</thead>
-						
-						<tbody>
-							<c:forEach var="contact" items="${listContact }">
-								<tr>
-									<td>${contact.name }</td>
-									<td>${contact.phone }</td>
-									<td>${contact.address }</td>
-									<td>${contact.groupnm }</td>
-									<th>${contact.contact_regdt }</th>
-									<td>
-							
-	<button type="submit" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modal">보기</button>								
-
-
-									</td>
-								</tr>
-<div class="modal fade" id="modal" >
+	<button type="submit" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modalAdd"><i class="fa fa-plus"></i> Add New</button>								
+	<div class="modal fade" id="modalAdd" >
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 		
             <!-- header title -->
-				<h4 class="modal-title">회원 수정</h4>
+				<h4 class="modal-title">회원 추가</h4>
              <!-- 닫기(x) 버튼 -->
 					<button type="button" class="close" data-dismiss="modal">×</button>
 			
@@ -606,7 +530,7 @@ table.table td .add {
 			<div class="modal-body">
 			
 			<div class="col-md-7 col-lg-8">
- 	<form method="get" action="/contact/editContact/${contact.contact_id }"  class="needs-validation" novalidate="">
+ 	<form method="get" action="/contact/addContact/${account_id }"  class="needs-validation" novalidate="">
 			<div class="col-sm-12">
               <label for="name" class="form-label">이름</label>
               <input type="text" class="form-control" name="name" id="name" placeholder="이름" value="" required="">
@@ -636,9 +560,9 @@ table.table td .add {
             </div>
             
             <div class="col-12">
-              <label for="groupno" class="form-label">그룹</label>
+              <label for="groupnm" class="form-label">그룹</label>
               <div class="input-group has-validation">
-                <input type="text" class="form-control" name="groupno" id="groupno" placeholder="그룹" required="">
+                <input type="text" class="form-control" name="groupnm" id="groupnm" placeholder="그룹" required="">
               <div class="invalid-feedback">
                   그룹은 필수입니다
                 </div>
@@ -647,8 +571,105 @@ table.table td .add {
             
             <hr>
             
-            <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 수정</button>
+            <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 추가</button>
 		</form>
+			</div>
+			</div>			
+			<!-- Footer -->
+		</div>
+	</div>
+	</div>					
+					</div>
+				</div>
+
+				<div class="table-responsive small">
+					<table class="table table-striped table-sm">
+						<thead>
+							<tr>
+								<th scope="col">이름</th>
+								<th scope="col">전화번호</th>
+								<th scope="col">주소</th>
+								<th scope="col">그룹</th>
+								<th scope="col">추가일</th>
+								<th scope="col">옵션</th>
+
+							</tr>
+						</thead>
+						
+						<tbody>
+							<c:forEach var="contact" items="${listContact }">
+								<tr>
+									<td>${contact.name }</td>
+									<td>${contact.phone }</td>
+									<td>${contact.address }</td>
+									<td>${contact.groupnm }</td>
+									<th>${contact.contact_regdt }</th>
+									<td>
+							
+	<button type="submit" data-contact_id="${contact.contact_id }" data-account_id="${account_id }" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modalEdit">보기</button>								
+
+
+									</td>
+								</tr>
+<div class="modal fade" id="modalEdit" >
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+		
+            <!-- header title -->
+				<h4 class="modal-title">회원 수정</h4>
+             <!-- 닫기(x) 버튼 -->
+					<button type="button" class="close" data-dismiss="modal">×</button>
+			
+			</div>
+						
+			<!-- body -->
+			<div class="modal-body">
+			
+			<div class="col-md-7 col-lg-8">
+ 	<%-- <form method="get" action="/contact/editContact/${account_id }/${contact.contact_id}"  class="needs-validation" novalidate=""> --%>
+			<div class="col-sm-12">
+              <label for="name" class="form-label">이름</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="이름" value="" required="">
+              <div class="invalid-feedback">
+                이름은 필수입니다
+              </div>
+            </div>
+			
+			<div class="col-12">
+              <label for="phone" class="form-label">전화번호</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="전화번호" required="">
+              <div class="invalid-feedback">
+                  전화번호는 필수입니다
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <label for="address" class="form-label">주소</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" name="address" id="address" placeholder="주소" required="">
+              <div class="invalid-feedback">
+                  주소는 필수입니다
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <label for="groupnm" class="form-label">그룹</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" name="groupnm" id="groupnm" placeholder="그룹" required="">
+              <div class="invalid-feedback">
+                  그룹은 필수입니다
+                </div>
+              </div>
+            </div>
+            
+            <hr>
+            
+            <button class="btn-success w-100 btn btn-primary btn-lg" onclick="modalEdit();"  type="submit">회원 수정</button>
+
 			</div>
 			</div>			
 			<!-- Footer -->
@@ -663,7 +684,7 @@ table.table td .add {
 			</main>
 		</div>
 	</div>
-	<script src="/resources/dist/js/bootstrap.bundle.min.js"
+	<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
 
@@ -671,7 +692,7 @@ table.table td .add {
 		src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
 		integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
 		crossorigin="anonymous"></script>
-	<script src="/resources/dashboard/dashboard.js"></script>
+	<script src="/bootstrap/dashboard/dashboard.js"></script>
 
 </body>
 </html>

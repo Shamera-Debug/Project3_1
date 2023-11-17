@@ -54,17 +54,23 @@ public class ContactDao
 	}
 	
 //	연락처 추가 메소드 
+	public void addContacts(String account_id, String name, String phone, String address, int groupno) throws Exception
+	{
+		Connection conn 		= open();
+		String sql = "INSERT INTO CONTACT (contact_id, ACCOUNT_ID ,NAME ,PHONE ,ADDRESS , GROUPNO )"
+				+	 "VALUES ((SELECT nvl(max(CONTACT_ID),0)+1 FROM CONTACT),'"+account_id+"','"+name+"','"+phone+"','"+address+"','"+groupno+"')";
+		
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		try(conn;pstmt) 
+		{
+			pstmt.executeUpdate();
+		}
+	}
+	
+//	연락처 수정 메소드 
 	public void updateContacts(int contact_id, String name, String phone, String address, int groupno) throws Exception
 	{
-//		int groupno;
-//		if(groupnm.equals("친구"))
-//		{
-//			groupno = 1;
-//		}
-//		else
-//		{
-//			groupno = 2;
-//		}
 		Connection conn 		= open();
 		String sql = "UPDATE CONTACT SET name = '"+name+"', phone = '"+phone+"', address = '"+address+"', groupno = '"+groupno+"'	WHERE contact_id = '"+contact_id+"'";
 		

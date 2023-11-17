@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<html lang="en" data-bs-theme="dark"><head><script src="/resources/assets/js/color-modes.js"></script>
+<html lang="en" data-bs-theme="dark"><head><script src="/bootstrap/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,15 +15,15 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
-<link href="/resources/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Favicons -->
-<link rel="apple-touch-icon" href="/resources/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/resources/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/resources/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/resources/assets/img/favicons/manifest.json">
-<link rel="mask-icon" href="/resources/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
-<link rel="icon" href="/resources/assets/img/favicons/favicon.ico">
+<link rel="apple-touch-icon" href="/bootstrap/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/bootstrap/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/bootstrap/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/bootstrap/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/bootstrap/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/bootstrap/assets/img/favicons/favicon.ico">
 <meta name="theme-color" content="#712cf9">
 
 
@@ -108,7 +108,7 @@
 
     
     <!-- Custom styles for this template -->
-    <link href="/resources/checkout/checkout.css" rel="stylesheet">
+    <link href="/bootstrap/checkout/checkout.css" rel="stylesheet">
   </head>
   <body class="bg-body-tertiary">
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -217,8 +217,8 @@
     </ul>
   </footer>
 </div>
-<script src="/resources/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-    <script src="/resources/checkout/checkout.js"></script>
+    <script src="/bootstrap/checkout/checkout.js"></script>
 
 </body></html>
