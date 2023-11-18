@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <html lang="en" data-bs-theme="dark"><head><script src="/bootstrap/assets/js/color-modes.js"></script>
 
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -15,7 +16,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
-<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" -->
 
     <!-- Favicons -->
 <link rel="apple-touch-icon" href="/bootstrap/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -217,7 +218,7 @@
     </ul>
   </footer>
 </div>
-<script src="/bootstrap/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script> <!-- integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" -->
 
     <script src="/bootstrap/checkout/checkout.js"></script>
 

@@ -27,13 +27,13 @@ public class ContactController
 	
 //	연락처 목록
 	@GetMapping("/list")
-	public String listContact(@ModelAttribute ContactDto dto, Model model)
+	public String listContact(@ModelAttribute ContactDto dto, Model model, RedirectAttributes ra)
 	{
+		ra.addFlashAttribute("account_id", dto.getAccount_id());
 		ArrayList<ContactDto> list;
-//		model.addAttribute("account_id", dto.getAccount_id());
 		try
 		{
-			list = dao.getAll();
+			list = dao.getAll(dto.getAccount_id());
 			
 			model.addAttribute("listContact", list);
 		} catch (Exception e)
@@ -103,7 +103,7 @@ public class ContactController
 		}
 	
 	// 성공 메소드
-	@GetMapping("/editContact/{account_id}/{contact_id}")
+	@GetMapping("/editContact/{account_id}")
 	public String editContact(@ModelAttribute ContactDto dto, @PathVariable String account_id, Model model, RedirectAttributes ra)
 	{		
 		ra.addFlashAttribute("account_id", dto.getAccount_id());
@@ -135,6 +135,19 @@ public class ContactController
 		return "redirect:/contact/list";
 	}
 	
+	@GetMapping("/delContact/{contact_id}")
+	public String delContact(@PathVariable int contact_id)
+	{
+		try 
+		{
+			dao.delContact(contact_id);
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return "redirect:/contact/list";
+	}
+	
 	@GetMapping("/loginWindow")
 	public String loginWindow(Model model)
 	{
@@ -155,6 +168,9 @@ public class ContactController
 	{
 		return "register";
 	}
+	
+	
+	
 	
 	
 	

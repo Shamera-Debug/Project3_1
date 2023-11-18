@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
-<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" -->
 
     <!-- Favicons -->
 <link rel="apple-touch-icon" href="/bootstrap/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -162,17 +162,17 @@
 
     
 <main class="form-signin w-100 m-auto">
-  <form method="get" action="/contact/login">
+  <form method="get" action="/contact/list">
     <img class="mb-4" src="/bootstrap/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">로그인</h1>
 
     <div class="form-floating">
-      <input type="text" name="account_id" class="form-control" id="floatingInput" placeholder="ID">
+      <input type="text" name="account_id" class="form-control" id="account_id" placeholder="ID">
       <label for="floatingInput">ID</label>
       
     </div>
     <div class="form-floating">
-      <input type="password" name="account_pw"  class="form-control" id="floatingPassword" placeholder="Password">
+      <input type="password" name="account_pw"  class="form-control" id="account_pw" placeholder="Password">
       <label for="floatingPassword">Password</label>
     </div>
 
@@ -185,7 +185,7 @@
     <p class="mt-5 mb-3 text-body-secondary">© Team 1</p>
   </form>
 </main>
-<script src="/bootstrap/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script> <!-- integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" -->
 
     
 

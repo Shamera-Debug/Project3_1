@@ -84,12 +84,12 @@ public class ContactDao
 
 	
 //	전체 목록 getAll() : parameter x
-	public ArrayList<ContactDto> getAll() throws Exception
+	public ArrayList<ContactDto> getAll(String account_id) throws Exception
 	{
 		Connection conn = open();
 		String sql = "SELECT c.contact_id, c.name, c.phone, c.address, g.groupnm, TO_CHAR(c.contact_regdt, 'YYYY-MM-DD') AS contact_regdt  	"
-				+	 "FROM contact c, cgroup g						"
-				+	 "WHERE c.groupno = g.groupno					";
+				+	 "FROM contact c, cgroup g										"
+				+	 "WHERE c.groupno = g.groupno AND c.account_id = '"+account_id+"'	";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
 		ArrayList<ContactDto> contactList = new ArrayList<>();

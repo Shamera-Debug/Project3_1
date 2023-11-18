@@ -136,19 +136,10 @@ table.table td .add {
 </style>
 
 <script>
-	var contact_id = "";
-	var account_id = "";
-    $(document).ready(function() {     
-        $('#modalEdit').on('show.bs.modal', function(event) {          
-            contact_id = $(event.relatedTarget).data('contact_id');
-            account_id = $(event.relatedTarget).data('account_id');
-        });
-    });
-    
-    function modalEdit(account_id, contact_id)
-    {
-    	location.href='/contact/editContact/'+account_id+'/'+contact_id;
-    }
+function PopupEmpInfo(clicked_element) {
+	var row_td = clicked_element.getElementsByTagName("td");
+	document.getElementById("name").innerHTML = row_td[0].innerHTML;
+}
 </script>
 	
 	<script type="text/javascript">
@@ -161,9 +152,9 @@ table.table td .add {
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
-<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
-	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-	crossorigin="anonymous">
+<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous"> -->
 
 <!-- Favicons -->
 <link rel="apple-touch-icon"
@@ -603,15 +594,18 @@ table.table td .add {
 									<td>${contact.phone }</td>
 									<td>${contact.address }</td>
 									<td>${contact.groupnm }</td>
-									<th>${contact.contact_regdt }</th>
+									<td>${contact.contact_regdt }</td>
 									<td>
-							
-	<button type="submit" data-contact_id="${contact.contact_id }" data-account_id="${account_id }" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modalEdit">보기</button>								
+ <button class="btn btn-success" data-toggle="modal" data-target="#modalEdit_${contact.contact_id}">
+     수정
+ </button>
+ <form method="get" action="/contact/delContact/${contact.contact_id }">
+ <button class="btn btn-danger" data-toggle="modal">삭제</button>
+ </form>
+ </td>
 
-
-									</td>
 								</tr>
-<div class="modal fade" id="modalEdit" >
+	<div class="modal fade" id="modalEdit_${contact.contact_id}" >
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -624,22 +618,24 @@ table.table td .add {
 			</div>
 						
 			<!-- body -->
+	<form method="get" action="/contact/editContact/${account_id }"  class="needs-validation" novalidate=""> 
+			
 			<div class="modal-body">
 			
 			<div class="col-md-7 col-lg-8">
- 	<%-- <form method="get" action="/contact/editContact/${account_id }/${contact.contact_id}"  class="needs-validation" novalidate=""> --%>
 			<div class="col-sm-12">
               <label for="name" class="form-label">이름</label>
-              <input type="text" class="form-control" name="name" id="name" placeholder="이름" value="" required="">
+              <input type="text" class="form-control" name="name" id="name" placeholder="이름" value="${contact.name }" required="">
               <div class="invalid-feedback">
                 이름은 필수입니다
               </div>
             </div>
-			
+
+
 			<div class="col-12">
               <label for="phone" class="form-label">전화번호</label>
               <div class="input-group has-validation">
-                <input type="text" class="form-control" name="phone" id="phone" placeholder="전화번호" required="">
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="전화번호" value="${contact.phone }" required="">
               <div class="invalid-feedback">
                   전화번호는 필수입니다
                 </div>
@@ -649,7 +645,7 @@ table.table td .add {
             <div class="col-12">
               <label for="address" class="form-label">주소</label>
               <div class="input-group has-validation">
-                <input type="text" class="form-control" name="address" id="address" placeholder="주소" required="">
+                <input type="text" class="form-control" name="address" id="address" placeholder="주소" value="${contact.address }" required="">
               <div class="invalid-feedback">
                   주소는 필수입니다
                 </div>
@@ -659,19 +655,23 @@ table.table td .add {
             <div class="col-12">
               <label for="groupnm" class="form-label">그룹</label>
               <div class="input-group has-validation">
-                <input type="text" class="form-control" name="groupnm" id="groupnm" placeholder="그룹" required="">
+                <input type="text" class="form-control" name="groupnm" id="groupnm" placeholder="그룹" value="${contact.groupnm }" required="">
               <div class="invalid-feedback">
                   그룹은 필수입니다
                 </div>
               </div>
             </div>
             
+             
             <hr>
+
+            <input type="hidden" name="contact_id" id="contact_id" value="${contact.contact_id }" />
             
-            <button class="btn-success w-100 btn btn-primary btn-lg" onclick="modalEdit();"  type="submit">회원 수정</button>
+            <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 수정</button>
 
 			</div>
 			</div>			
+	</form>
 			<!-- Footer -->
 		</div>
 	</div>
@@ -684,14 +684,18 @@ table.table td .add {
 			</main>
 		</div>
 	</div>
-	<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-		crossorigin="anonymous"></script>
+	
+
+	
+	
+	<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"> -->
 
 	<script
-		src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
-		integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
-		crossorigin="anonymous"></script>
+		src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"></script>
+<!-- 		integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
+		crossorigin="anonymous" -->
 	<script src="/bootstrap/dashboard/dashboard.js"></script>
 
 </body>
