@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <html lang="en" data-bs-theme="dark">
 <head>
 <script src="/bootstrap/assets/js/color-modes.js"></script>

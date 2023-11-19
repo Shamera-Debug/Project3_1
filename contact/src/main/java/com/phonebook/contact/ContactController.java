@@ -25,15 +25,18 @@ public class ContactController
 	@Autowired
 	ContactDao dao;
 	
+	String tempId;
+	
 //	연락처 목록
 	@GetMapping("/list")
-	public String listContact(@ModelAttribute ContactDto dto, Model model, RedirectAttributes ra)
+	public String listContact(ContactDto dto, Model model, RedirectAttributes ra)
 	{
 		ra.addFlashAttribute("account_id", dto.getAccount_id());
+		model.addAttribute("account_id", tempId);
 		ArrayList<ContactDto> list;
 		try
 		{
-			list = dao.getAll(dto.getAccount_id());
+			list = dao.getAll(tempId);
 			
 			model.addAttribute("listContact", list);
 		} catch (Exception e)
@@ -45,28 +48,31 @@ public class ContactController
 	}
 	
 	
-	@PostMapping("/addAccount")
-	public String addAccount(@ModelAttribute ContactDto dto, Model model, HttpServletRequest req)
+	@GetMapping("/addAccount")
+	public String addAccount(@ModelAttribute ContactDto dto, Model model)
 	{	
-		ArrayList<ContactDto> accountList;
-		try
-		{
-			accountList = dao.searchId(dto.getAccount_id());
-			if(accountList.size()>0)
+		String tempPw = "";
+		String tempNiN = "";
+		tempId = dto.getAccount_id();
+		tempPw = dto.getAccount_pw();
+		String re;
+		try {
+			if(dao.searchId(tempId))
 			{
-				req.setAttribute("error", "중복");
-				return "redirect:/contact/registerWindow";
-			}else
+				model.addAttribute("erroMessage", "동일한 ID가 존재합니다");
+				re = "register";
+			} else
 			{
-				dao.addAddress(dto);
-			}	
-			
-		} catch (Exception e)
+				dao.addAccount(tempId, tempPw, tempNiN);
+				re ="redirect:/contact/login";
+			}
+		} catch (Exception e) 
 		{
+			model.addAttribute("errorMessage", "회원가입 중 오류가 발생했습니다");
+			re = "register";
 			e.printStackTrace();
-			model.addAttribute("error", "존재하는 ID");
 		}
-		return "redirect:/contact/list";
+		return re;
 	}
 	
 	// 추가 메소드
@@ -155,11 +161,35 @@ public class ContactController
 	}
 	
 	@GetMapping("/login")
-	public String login(@ModelAttribute ContactDto dto, RedirectAttributes ra)
+	public String login(@ModelAttribute ContactDto dto, Model model)
 	{
-		ra.addFlashAttribute("account_id", dto.getAccount_id());
-//		listContact(dto, model);
-		return "redirect:/contact/list";
+		String tempPw = "";
+		tempId = dto.getAccount_id();
+		tempPw = dto.getAccount_pw();
+		String re;
+		try {
+			if(dao.searchId(tempId))
+			{
+				if(dao.searchPw(tempPw))
+				{
+					re = "redirect:/contact/list";
+				} else
+				{
+					model.addAttribute("errorMessage", "비밀번호가 존재하지 않습니다");
+					re = "login";
+				}
+			} else
+			{
+				model.addAttribute("errorMessage", "ID가 존재하지 않습니다");
+				re ="login";
+			}
+		} catch (Exception e) 
+		{
+			model.addAttribute("errorMessage", "로그인 중 오류가 발생했습니다");
+			re = "login";
+			e.printStackTrace();
+		}
+		return re;
 	}
 	
 	

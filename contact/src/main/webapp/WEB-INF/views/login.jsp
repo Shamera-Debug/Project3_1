@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+    
+    
+    
 <!DOCTYPE HTML>
     <html lang="en" data-bs-theme="dark">
     <head>
@@ -162,9 +166,10 @@
 
     
 <main class="form-signin w-100 m-auto">
-  <form method="get" action="/contact/list">
+  <form method="get" action="/contact/login">
     <img class="mb-4" src="/bootstrap/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">로그인</h1>
+   
 
     <div class="form-floating">
       <input type="text" name="account_id" class="form-control" id="account_id" placeholder="ID">
@@ -175,6 +180,9 @@
       <input type="password" name="account_pw"  class="form-control" id="account_pw" placeholder="Password">
       <label for="floatingPassword">Password</label>
     </div>
+     <c:if test="${not empty errorMessage}">
+        <p style="color: red;">${errorMessage}</p>
+    </c:if>
 
     <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
     &nbsp;&nbsp;

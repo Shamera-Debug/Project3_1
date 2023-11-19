@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <html lang="en" data-bs-theme="dark"><head><script src="/bootstrap/assets/js/color-modes.js"></script>
 
 
@@ -167,7 +168,7 @@
     
     
       <div class="col-md-7 col-lg-8">
-        <form action="/contact/addAccount" method="post" class="needs-validation" novalidate="">
+        <form action="/contact/addAccount" method="get" class="needs-validation" novalidate="">
           <div class="row g-3">
             <div class="col-sm-12">
               <label for="firstName" class="form-label">이름</label>
@@ -197,9 +198,12 @@
                 </div>
               </div>
             </div>
-
+			
 
           <hr class="my-4">
+        <c:if test="${not empty errorMessage}">
+        	<p style="color: red;">${errorMessage}</p>
+    	</c:if>
           
           <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 가입</button>
         </form>
@@ -210,12 +214,7 @@
   </main>
 
   <footer class="my-5 pt-5 text-body-secondary text-center text-small">
-    <p class="mb-1">© 2017–2023 Company Name</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
+    <p class="mb-1">©Team 1</p>
   </footer>
 </div>
 <script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script> <!-- integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" -->

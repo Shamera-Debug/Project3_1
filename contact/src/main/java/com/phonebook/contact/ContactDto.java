@@ -7,7 +7,6 @@ import java.sql.Date;
 public class ContactDto
 {
 //	account 테이블
-	
 	String account_id;
 	String account_pw;
 	String nickname;

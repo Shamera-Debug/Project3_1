@@ -37,18 +37,14 @@ public class ContactDao
 	}
 	
 //	계정 추가 메소드 
-	public void addAddress(ContactDto dto) throws Exception
+	public void addAccount(String account_id, String account_pw, String nickname) throws Exception
 	{
 		Connection conn 		= open();
 		String sql = "insert into account(account_id, ACCOUNT_PW, NICKNAME)	"
-				   + " values(?, ?, ?)										";
+				   + " values('"+account_id+"', '"+account_pw+"', '"+nickname+"')										";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		try(conn;pstmt) 
-		{
-			pstmt.setString(1, dto.getAccount_id());
-			pstmt.setString(2, dto.getAccount_pw());
-			pstmt.setString(3, dto.getNickname());
-			
+		{			
 			pstmt.executeUpdate();
 		}
 	}
@@ -154,26 +150,43 @@ public class ContactDao
 		}
 	}
 	
-	public ArrayList<ContactDto> searchId(String id) throws Exception
+	public boolean searchId(String account_id) throws Exception
 	{
 		Connection conn = open();
-		ArrayList<ContactDto> list = new ArrayList<>();
-		
-		String sql = "SELECT ACCOUNT_ID FROM ACCOUNT WHERE ACCOUNT_ID = '"+id+"'  ";
+		String sql = "SELECT ACCOUNT_ID FROM ACCOUNT WHERE ACCOUNT_ID = '"+account_id+"'  ";
 		PreparedStatement pstmt = conn.prepareStatement(sql);	
 		
 		ResultSet rs = pstmt.executeQuery();
 		
 		try(conn; pstmt; rs)
 		{
-			while(rs.next())
+			if(rs.next())
 			{
-				// 한개의 뉴스 저장
-				ContactDto dto = new ContactDto();
-				dto.setAccount_id(rs.getString("account_id"));
-				list.add(dto);
+				return true;
+			} else
+			{
+				return false;
 			}
 		}
-		return list;
+	}
+	
+	public boolean searchPw(String account_pw) throws Exception
+	{
+		Connection conn = open();
+		String sql = "SELECT ACCOUNT_PW FROM ACCOUNT WHERE ACCOUNT_PW = '"+account_pw+"'  ";
+		PreparedStatement pstmt = conn.prepareStatement(sql);	
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		try(conn; pstmt; rs)
+		{
+			if(rs.next())
+			{
+				return true;
+			} else
+			{
+				return false;
+			}
+		}
 	}
 }
