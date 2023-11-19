@@ -24,6 +24,12 @@ public class ContactDto
 	int groupno;
 	String groupnm;
 	
+	public void clearAccount() 
+	{
+		account_id = "";
+		account_pw = "";
+	}
+	
 //	getter setter 설정
 	public String getAccount_id()
 	{

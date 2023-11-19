@@ -135,13 +135,6 @@ table.table td .add {
 	display: none;
 }
 </style>
-
-<script>
-function PopupEmpInfo(clicked_element) {
-	var row_td = clicked_element.getElementsByTagName("td");
-	document.getElementById("name").innerHTML = row_td[0].innerHTML;
-}
-</script>
 	
 	<script type="text/javascript">
 	 $('.ls-modal').on('click', function(e){
@@ -404,7 +397,7 @@ function PopupEmpInfo(clicked_element) {
 
 	<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
 		data-bs-theme="dark">
-		<a class="navbar-brand f-3 col-lg-2 me-0 px-3 fs-6 text-white"><span>${account_id}</span></a>
+		<a class="navbar-brand f-3 col-lg-2 me-0 px-3 fs-6 text-white"><span>현재 접속한 계정 : ${nickname}</span></a>
 
 		<ul class="navbar-nav flex-row d-md-none">
 			<li class="nav-item text-nowrap">
@@ -449,11 +442,17 @@ function PopupEmpInfo(clicked_element) {
 					<div
 						class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
 						<ul class="nav flex-column">
-							<li class="nav-item"><a
+							
+							<li class="nav-item">
+							<form method="get" action="/contact/list">
+							<button
 								class="nav-link d-flex align-items-center gap-2 active"
 								aria-current="page" href="#"> <svg class="bi">
 										<use xlink:href="#house-fill"></use></svg> 연락처 리스트
-							</a></li>
+							</button>
+							</form>
+							</li>
+							
 							<li class="nav-item"><a
 								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
 										class="bi">
@@ -481,16 +480,26 @@ function PopupEmpInfo(clicked_element) {
 						<hr class="my-3">
 
 						<ul class="nav flex-column mb-auto">
-							<li class="nav-item"><a
+							<li class="nav-item">
+							<form method="get" action="/contact/editAccountWindow">
+							<button
 								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
 										class="bi">
 										<use xlink:href="#gear-wide-connected"></use></svg> 계정정보 수정
-							</a></li>
-							<li class="nav-item"><a
+							</button>
+							</form>
+							</li>
+							
+							<li class="nav-item">
+							<form method="get" action="/contact/loginWindow">
+							<button
 								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
 										class="bi">
 										<use xlink:href="#door-closed"></use></svg> 로그아웃
-							</a></li>
+							</button>
+							</form>
+							</li>
+							
 						</ul>
 					</div>
 				</div>
@@ -601,7 +610,7 @@ function PopupEmpInfo(clicked_element) {
      수정
  </button>
  <form method="get" action="/contact/delContact/${contact.contact_id }">
- <button class="btn btn-danger" data-toggle="modal">삭제</button>
+ <button onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){return false;}" class="btn btn-danger" >삭제</button>
  </form>
  </td>
 
@@ -667,6 +676,10 @@ function PopupEmpInfo(clicked_element) {
             <hr>
 
             <input type="hidden" name="contact_id" id="contact_id" value="${contact.contact_id }" />
+            
+            <c:if test="${not empty errorMessage}">
+        	<p style="color: red;">${errorMessage}</p>
+    		</c:if>
             
             <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 수정</button>
 

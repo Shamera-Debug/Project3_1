@@ -49,6 +49,20 @@ public class ContactDao
 		}
 	}
 	
+//	계정 수정 메소드 
+	public void updateAccount(String nickname, String account_pw, String account_id) throws Exception
+	{
+		Connection conn 		= open();
+		String sql = "UPDATE ACCOUNT SET nickname = '"+nickname+"', account_pw = '"+account_pw+"' 	WHERE account_id = '"+account_id+"'";
+		
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		try(conn;pstmt) 
+		{
+			pstmt.executeUpdate();
+		}
+	}
+	
 //	연락처 추가 메소드 
 	public void addContacts(String account_id, String name, String phone, String address, int groupno) throws Exception
 	{
@@ -170,10 +184,10 @@ public class ContactDao
 		}
 	}
 	
-	public boolean searchPw(String account_pw) throws Exception
+	public boolean searchPw(String account_id, String account_pw) throws Exception
 	{
 		Connection conn = open();
-		String sql = "SELECT ACCOUNT_PW FROM ACCOUNT WHERE ACCOUNT_PW = '"+account_pw+"'  ";
+		String sql = "SELECT * FROM ACCOUNT WHERE ACCOUNT_ID = '"+account_id+"' AND ACCOUNT_PW = '"+account_pw+"'  ";
 		PreparedStatement pstmt = conn.prepareStatement(sql);	
 		
 		ResultSet rs = pstmt.executeQuery();
@@ -188,5 +202,24 @@ public class ContactDao
 				return false;
 			}
 		}
+	}
+	
+	public String searchNickname(String account_id) throws Exception
+	{
+		Connection conn = open();
+		String sql = "SELECT NICKNAME FROM ACCOUNT WHERE ACCOUNT_ID = '"+account_id+"'  ";
+		PreparedStatement pstmt = conn.prepareStatement(sql);	
+		
+		ResultSet rs = pstmt.executeQuery();
+		String nickname = "";
+		
+		try(conn; pstmt; rs)
+		{
+			while(rs.next()) 
+			{
+				nickname = rs.getString("nickname");
+			}
+		}
+		return nickname;
 	}
 }
