@@ -182,7 +182,7 @@
     </div>
      <c:if test="${not empty errorMessage}">
         <p style="color: red;">${errorMessage}</p>
-    </c:if>
+    </c:if> 
 
     <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
     &nbsp;&nbsp;

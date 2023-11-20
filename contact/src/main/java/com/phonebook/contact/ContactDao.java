@@ -222,4 +222,36 @@ public class ContactDao
 		}
 		return nickname;
 	}
+	
+	public ArrayList<ContactDto> searchName(String account_id, String name) throws Exception
+	{
+		Connection conn = open();
+		String sql = "SELECT c.contact_id, c.name, c.phone, c.address, g.groupnm, TO_CHAR(c.contact_regdt, 'YYYY-MM-DD') AS contact_regdt  	"
+				+	 "FROM contact c, cgroup g																								"
+				+	 "WHERE c.groupno = g.groupno AND c.account_id = '"+account_id+"'	AND c.name = '"+name+"'								";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		ArrayList<ContactDto> contactList = new ArrayList<>();
+		
+		// 데이터베이스 select => list
+		ResultSet rs = pstmt.executeQuery();
+		
+		try(conn; pstmt; rs)
+		{
+			while(rs.next())
+			{
+				// 한개의 뉴스 저장
+				ContactDto dto = new ContactDto();
+				dto.setContact_id(rs.getInt("contact_id"));
+				dto.setName(rs.getString("name"));
+				dto.setPhone(rs.getString("phone"));
+				dto.setAddress(rs.getString("address"));
+				dto.setGroupnm(rs.getString("groupnm"));
+				dto.setContact_regdt(rs.getString("contact_regdt"));
+				
+				contactList.add(dto);
+			}
+		}
+		return contactList;
+	}
 }

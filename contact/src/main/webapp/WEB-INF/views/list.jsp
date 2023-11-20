@@ -135,13 +135,6 @@ table.table td .add {
 	display: none;
 }
 </style>
-	
-	<script type="text/javascript">
-	 $('.ls-modal').on('click', function(e){
-		  e.preventDefault();
-		  $('#modal').modal('show').find('.modal-body').load($(this).attr('href'));
-		});
-	</script>
 
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -397,8 +390,9 @@ table.table td .add {
 
 	<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
 		data-bs-theme="dark">
-		<a class="navbar-brand f-3 col-lg-2 me-0 px-3 fs-6 text-white"><span>현재 접속한 계정 : ${nickname}</span></a>
-
+		<div style="width:90%;">
+		<a  class="navbar-brand f-3 col-lg-2 me-0 px-3 fs-6 text-white"><span>현재 접속한 계정 : ${nickname}</span></a>
+		</div>
 		<ul class="navbar-nav flex-row d-md-none">
 			<li class="nav-item text-nowrap">
 				<button class="nav-link px-3 text-white" type="button"
@@ -428,7 +422,7 @@ table.table td .add {
 
 	<div class="container-fluid">
 		<div class="row">
-			<div
+			<div style="width:15%;"
 				class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
 				<div class="offcanvas-md offcanvas-end bg-body-tertiary"
 					tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
@@ -439,55 +433,19 @@ table.table td .add {
 							data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
 							aria-label="Close"></button>
 					</div>
-					<div
+					<div 
 						class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-						<ul class="nav flex-column">
-							
-							<li class="nav-item">
-							<form method="get" action="/contact/list">
-							<button
-								class="nav-link d-flex align-items-center gap-2 active"
-								aria-current="page" href="#"> <svg class="bi">
-										<use xlink:href="#house-fill"></use></svg> 연락처 리스트
-							</button>
-							</form>
-							</li>
-							
-							<li class="nav-item"><a
-								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
-										class="bi">
-										<use xlink:href="#file-earmark"></use></svg> 연락처 추가
-							</a></li>
-							<li class="nav-item"><a
-								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
-										class="bi">
-										<use xlink:href="#people"></use></svg> Customers
-							</a></li>
-							<li class="nav-item"><a
-								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
-										class="bi">
-										<use xlink:href="#graph-up"></use></svg> Reports
-							</a></li>
-							<li class="nav-item"><a
-								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
-										class="bi">
-										<use xlink:href="#puzzle"></use></svg> Integrations
-							</a></li>
-						</ul>
-
-
-
 						<hr class="my-3">
 
 						<ul class="nav flex-column mb-auto">
 							<li class="nav-item">
-							<form method="get" action="/contact/editAccountWindow">
-							<button
-								class="nav-link d-flex align-items-center gap-2" href="#"> <svg
-										class="bi">
-										<use xlink:href="#gear-wide-connected"></use></svg> 계정정보 수정
+
+							<button class="nav-link d-flex align-items-center gap-2" data-toggle="modal" data-target="#modalAccount_${account_id }">		
+							<svg class="bi">
+							<use xlink:href="#gear-wide-connected"></use>
+							</svg>
+							계정정보 수정
 							</button>
-							</form>
 							</li>
 							
 							<li class="nav-item">
@@ -504,8 +462,42 @@ table.table td .add {
 					</div>
 				</div>
 			</div>
+			
+			
+<!-- 계정 정보 수정 모달 -->
+	<div id="modalAccount_${account_id }" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form method="get" action="/contact/editAccount/${account_id }">
+					<div class="modal-header">						
+						<h4 class="modal-title">계정정보 수정</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+							<label>현재 아이디 : ${account_id }</label>
+						</div>
+						<hr>
+						<div class="form-group">
+							<label>이름</label>
+							<input name="nickname" id="nickname" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>비밀번호</label>
+							<input name="account_pw" id="account_pw" type="password" class="form-control" required>
+						</div>			
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-info" value="Save">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<!-- 계정 정보 수정 모달 끝 -->		
 
-			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+			<main style="width:85%;" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<div class="row">
 					<div
 						class="col-sm-10 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -514,72 +506,64 @@ table.table td .add {
 					<div
 						class="col-sm-2 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					
-	<button type="submit" class="ls-modal btn btn-outline-primary" data-toggle="modal" data-target="#modalAdd"><i class="fa fa-plus"></i> Add New</button>								
-	<div class="modal fade" id="modalAdd" >
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-		
-            <!-- header title -->
-				<h4 class="modal-title">회원 추가</h4>
-             <!-- 닫기(x) 버튼 -->
-					<button type="button" class="close" data-dismiss="modal">×</button>
-			
+	<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#modalAdd"><i class="material-icons">&#xE147;</i></button>	
+	<hr>
+	
+	<form action="/contact/searchContact" method="get">
+        <select name="type" class="type-box">
+			<option value="">검색 유형 선택</option>
+			<option value="name">이름</option>
+			<option value="phone">번호</option>
+		</select>
+		<td colspan="2">
+          <input class="inputId" type="text" name="keyword" placeholder="검색어 입력">
+        </td>
+		<td>
+          <input class="submitBtn" type="submit" value="검색하기">
+		</td>
+	</form>							
+
+<!-- 연락처 추가 모달 -->
+	<div id="modalAdd" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form method="get" action="/contact/addContact/${account_id }">
+					<div class="modal-header">						
+						<h4 class="modal-title">연락처 추가</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+							<label>이름</label>
+							<input name="name" id="name" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>전화번호</label>
+							<input name="phone" id="phone" pattern="(010)\d{3,4}\d{4}" title="형식 01000000000" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>주소</label>
+							<input name="address" id="address" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>그룹</label>
+							<select name="groupnm" id="groupnm" class="form-control" required>
+	  						<option value="가족">가족</option>
+	  						<option value="친구">친구</option>
+	 						<option value="직장">직장</option>
+	 						<option value="기타">기타</option>
+							</select>
+						</div>				
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-info" value="Save">
+					</div>
+				</form>
 			</div>
-						
-			<!-- body -->
-			<div class="modal-body">
-			
-			<div class="col-md-7 col-lg-8">
- 	<form method="get" action="/contact/addContact/${account_id }"  class="needs-validation" novalidate="">
-			<div class="col-sm-12">
-              <label for="name" class="form-label">이름</label>
-              <input type="text" class="form-control" name="name" id="name" placeholder="이름" value="" required="">
-              <div class="invalid-feedback">
-                이름은 필수입니다
-              </div>
-            </div>
-			
-			<div class="col-12">
-              <label for="phone" class="form-label">전화번호</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" name="phone" id="phone" placeholder="전화번호" required="">
-              <div class="invalid-feedback">
-                  전화번호는 필수입니다
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-12">
-              <label for="address" class="form-label">주소</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" name="address" id="address" placeholder="주소" required="">
-              <div class="invalid-feedback">
-                  주소는 필수입니다
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-12">
-              <label for="groupnm" class="form-label">그룹</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" name="groupnm" id="groupnm" placeholder="그룹" required="">
-              <div class="invalid-feedback">
-                  그룹은 필수입니다
-                </div>
-              </div>
-            </div>
-            
-            <hr>
-            
-            <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 추가</button>
-		</form>
-			</div>
-			</div>			
-			<!-- Footer -->
 		</div>
-	</div>
-	</div>					
+	</div>	
+<!-- 연락처 추가 모달 끝 -->					
 					</div>
 				</div>
 
@@ -587,12 +571,12 @@ table.table td .add {
 					<table class="table table-striped table-sm">
 						<thead>
 							<tr>
-								<th scope="col">이름</th>
-								<th scope="col">전화번호</th>
-								<th scope="col">주소</th>
-								<th scope="col">그룹</th>
-								<th scope="col">추가일</th>
-								<th scope="col">옵션</th>
+								<th style="width:17%;" scope="col">이름</th>
+								<th style="width:17%;" scope="col">전화번호</th>
+								<th style="width:17%;" scope="col">주소</th>
+								<th style="width:17%;" scope="col">그룹</th>
+								<th style="width:17%;" scope="col">추가일</th>
+								<th style="width:15%;" scope="col">옵션</th>
 
 							</tr>
 						</thead>
@@ -605,91 +589,82 @@ table.table td .add {
 									<td>${contact.address }</td>
 									<td>${contact.groupnm }</td>
 									<td>${contact.contact_regdt }</td>
-									<td>
- <button class="btn btn-success" data-toggle="modal" data-target="#modalEdit_${contact.contact_id}">
-     수정
- </button>
- <form method="get" action="/contact/delContact/${contact.contact_id }">
- <button onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){return false;}" class="btn btn-danger" >삭제</button>
- </form>
- </td>
+		<td>
+			<button class="btn btn-info" data-toggle="modal" data-target="#modalEdit_${contact.contact_id}"><i style="text-align: center;" class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+			<button class="btn btn-danger" data-toggle="modal" data-target="#modalDelete_${contact.contact_id}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+
+		</td>
 
 								</tr>
-	<div class="modal fade" id="modalEdit_${contact.contact_id}" >
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-		
-            <!-- header title -->
-				<h4 class="modal-title">회원 수정</h4>
-             <!-- 닫기(x) 버튼 -->
-					<button type="button" class="close" data-dismiss="modal">×</button>
-			
+								
+<!-- 연락처 삭제 모달 -->
+	<div id="modalDelete_${contact.contact_id}" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+					<div class="modal-header">						
+						<h4 class="modal-title">Delete Employee</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<p>Are you sure you want to delete these Records?</p>
+						<p class="text-warning"><small>This action cannot be undone.</small></p>
+					</div>
+				<form method="get" action="/contact/delContact/${contact.contact_id }">
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<button type="submit" class="btn btn-danger" value="Delete">Delete</button>
+					</div>
+				</form>
 			</div>
-						
-			<!-- body -->
-	<form method="get" action="/contact/editContact/${account_id }"  class="needs-validation" novalidate=""> 
-			
-			<div class="modal-body">
-			
-			<div class="col-md-7 col-lg-8">
-			<div class="col-sm-12">
-              <label for="name" class="form-label">이름</label>
-              <input type="text" class="form-control" name="name" id="name" placeholder="이름" value="${contact.name }" required="">
-              <div class="invalid-feedback">
-                이름은 필수입니다
-              </div>
-            </div>
-
-
-			<div class="col-12">
-              <label for="phone" class="form-label">전화번호</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" name="phone" id="phone" placeholder="전화번호" value="${contact.phone }" required="">
-              <div class="invalid-feedback">
-                  전화번호는 필수입니다
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-12">
-              <label for="address" class="form-label">주소</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" name="address" id="address" placeholder="주소" value="${contact.address }" required="">
-              <div class="invalid-feedback">
-                  주소는 필수입니다
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-12">
-              <label for="groupnm" class="form-label">그룹</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" name="groupnm" id="groupnm" placeholder="그룹" value="${contact.groupnm }" required="">
-              <div class="invalid-feedback">
-                  그룹은 필수입니다
-                </div>
-              </div>
-            </div>
-            
-             
-            <hr>
-
-            <input type="hidden" name="contact_id" id="contact_id" value="${contact.contact_id }" />
-            
-            <c:if test="${not empty errorMessage}">
-        	<p style="color: red;">${errorMessage}</p>
-    		</c:if>
-            
-            <button class="btn-success w-100 btn btn-primary btn-lg" type="submit">회원 수정</button>
-
-			</div>
-			</div>			
-	</form>
-			<!-- Footer -->
 		</div>
-	</div>
-	</div>
+	</div>								
+<!-- 연락처 삭제 모달 끝 -->
+
+
+<!-- 연락처 수정 모달 -->
+	<div id="modalEdit_${contact.contact_id}" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form method="get" action="/contact/editContact/${account_id }">
+					<div class="modal-header">						
+						<h4 class="modal-title">연락처 수정</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+							<label>이름</label>
+							<input name="name" id="name" type="text" class="form-control" value="${contact.name }" required>
+						</div>
+						<div class="form-group">
+							<label>전화번호</label>
+							<input name="phone" id="phone" pattern="(010)\d{3,4}\d{4}" title="형식 01000000000" type="text" class="form-control" value="${contact.phone }" required>
+						</div>
+						<div class="form-group">
+							<label>주소</label>
+							<input name="address" id="address" type="text" class="form-control" value="${contact.address }" required>
+						</div>
+						<div class="form-group">
+							<label>그룹</label>
+							<select name="groupnm" id="groupnm" class="form-control" required>
+	  						<option value="가족">가족</option>
+	  						<option value="친구">친구</option>
+	 						<option value="직장">직장</option>
+	 						<option value="기타">기타</option>
+							</select>
+						</div>	
+						<div class="form-group">
+							<input type="hidden" name="contact_id" id="contact_id" value="${contact.contact_id }">
+						</div>					
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-info" value="Save">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>		
+<!-- 연락처 수정 모달 끝 -->					
 							</c:forEach>
 
 						</tbody>
