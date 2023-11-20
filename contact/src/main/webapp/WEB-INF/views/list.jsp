@@ -509,19 +509,7 @@ table.table td .add {
 	<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#modalAdd"><i class="material-icons">&#xE147;</i></button>	
 	<hr>
 	
-	<form action="/contact/searchContact" method="get">
-        <select name="type" class="type-box">
-			<option value="">검색 유형 선택</option>
-			<option value="name">이름</option>
-			<option value="phone">번호</option>
-		</select>
-		<td colspan="2">
-          <input class="inputId" type="text" name="keyword" placeholder="검색어 입력">
-        </td>
-		<td>
-          <input class="submitBtn" type="submit" value="검색하기">
-		</td>
-	</form>							
+						
 
 <!-- 연락처 추가 모달 -->
 	<div id="modalAdd" class="modal fade">
@@ -568,6 +556,20 @@ table.table td .add {
 				</div>
 
 				<div class="table-responsive small">
+				
+			<!-- 수정필요!!! -->
+					<form action="/contact/searchContact" method="get">
+						<select name="type" class="type-box">
+							<option value="">검색 유형 선택</option>
+							<option value="name">이름</option>
+							<option value="phone">번호</option>
+						</select>
+						<td colspan="2"><input class="inputId" type="text"
+							name="keyword" placeholder="검색어 입력"></td>
+						<td><input class="submitBtn" type="submit" value="검색하기">
+						</td>
+					</form>
+			<!-- 수정필요!!! -->
 					<table class="table table-striped table-sm">
 						<thead>
 							<tr>
