@@ -1,7 +1,5 @@
 package com.phonebook.contact;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,63 +19,41 @@ public class ContactController
 {
 
 	@Autowired
-	ContactDao dao;
-
-	String accountId;
+	private ContactService contactService;
 
 //	연락처 목록
 	@GetMapping("/list")
-	public String listContact(ContactDto dto, Model model)
+	public String listContact(Model model)
 	{
 		try
 		{
-			model.addAttribute("nickname", dao.searchNickname(accountId));
+			model.addAttribute("nickname", contactService.searchNickname());
+			model.addAttribute("account_id", contactService.getAccountId());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		model.addAttribute("account_id", accountId);
-		ArrayList<ContactDto> list;
-		try
-		{
-			list = dao.getAll(accountId);
 
-			model.addAttribute("listContact", list);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			model.addAttribute("error", "연락처 목록 에러");
-		}
+		model.addAttribute("listContact", contactService.getAllContacts());
 		return "list";
 	}
 
 	@GetMapping("/addAccount")
 	public String addAccount(@ModelAttribute ContactDto dto, Model model)
 	{
-		String tempPw = "";
-		String tempNiN = "";
-		accountId = dto.getAccount_id();
-		tempPw = dto.getAccount_pw();
-		tempNiN = dto.getNickname();
-		String re;
-		try
+		String serviceReturn = contactService.addAccount(dto);
+		if (serviceReturn.equals("동일한 ID가 존재합니다"))
 		{
-			if (dao.searchId(accountId))
-			{
-				model.addAttribute("errorMessage", "동일한 ID가 존재합니다");
-				re = "register";
-			} else
-			{
-				dao.addAccount(accountId, tempPw, tempNiN);
-				re = "redirect:/contact/loginWindow";
-			}
-		} catch (Exception e)
+			model.addAttribute("errorMessage", serviceReturn);
+			return "register";
+		} else if (serviceReturn.equals("redirect:/contact/loginWindow"))
 		{
-			model.addAttribute("errorMessage", "회원가입 중 오류가 발생했습니다");
-			re = "register";
-			e.printStackTrace();
+			return serviceReturn;
+		} else
+		{
+			model.addAttribute("errorMessage", serviceReturn);
+			return "register";
 		}
-		return re;
 	}
 
 	// 추가 메소드
@@ -86,159 +62,97 @@ public class ContactController
 			RedirectAttributes ra)
 	{
 		ra.addFlashAttribute("account_id", account_id);
+		String serviceReturn = contactService.addContact(dto, account_id);
 
-		int temp = 1;
-		if (dto.getGroupnm().equals("가족"))
+		if (serviceReturn.equals("연락처 추가 에러"))
 		{
-			temp = 1;
-		} else if (dto.getGroupnm().equals("친구"))
-		{
-			temp = 2;
-		} else if (dto.getGroupnm().equals("친구"))
-		{
-			temp = 3;
+			model.addAttribute("errorMessage", serviceReturn);
+			return "list";
 		} else
 		{
-			temp = 4;
+			return serviceReturn;
 		}
-
-		try
-		{
-			dao.addContacts(account_id, dto.getName(), dto.getPhone(), dto.getAddress(), temp);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return "redirect:/contact/list";
 	}
 
-	// 성공 메소드
 	@GetMapping("/editContact/{account_id}")
 	public String editContact(@ModelAttribute ContactDto dto, @PathVariable String account_id, Model model,
 			RedirectAttributes ra)
 	{
 		ra.addFlashAttribute("account_id", account_id);
-		int temp = 1;
-		if (dto.getGroupnm().equals("가족"))
+		String serviceReturn = contactService.editContact(dto, account_id);
+
+		if (serviceReturn.equals("연락처 수정 에러"))
 		{
-			temp = 1;
-		} else if (dto.getGroupnm().equals("친구"))
-		{
-			temp = 2;
-		} else if (dto.getGroupnm().equals("직장"))
-		{
-			temp = 3;
+			model.addAttribute("errorMessage", serviceReturn);
+			return "list";
 		} else
 		{
-			temp = 4;
+			return serviceReturn;
 		}
-
-		try
-		{
-			dao.updateContacts(dto.getContact_id(), dto.getName(), dto.getPhone(), dto.getAddress(), temp);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return "redirect:/contact/list";
 	}
 
 	@GetMapping("/editAccount/{account_id}")
-	public String editAccount(@ModelAttribute ContactDto dto)
+	public String editAccount(@ModelAttribute ContactDto dto, @PathVariable String account_id, Model model)
 	{
-		try
-		{
-			dao.updateAccount(dto.getNickname(), dto.getAccount_pw(), dto.getAccount_id());
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return "redirect:/contact/loginWindow";
-	}
+		String serviceReturn = contactService.editAccount(dto, account_id);
 
-	@GetMapping("/editAccountWindow")
-	public String editAccountWindow(Model model)
-	{
-		try
+		if (serviceReturn.equals("계정 수정 에러"))
 		{
-			model.addAttribute("account_id", accountId);
-		} catch (Exception e)
+			model.addAttribute("errorMessage", serviceReturn);
+			return "list";
+		} else
 		{
-			e.printStackTrace();
+			return serviceReturn;
 		}
-		return "editAccount";
 	}
 
 	@GetMapping("/delContact/{contact_id}")
-	public String delContact(@PathVariable int contact_id)
+	public String delContact(@PathVariable int contact_id, Model model)
 	{
-		try
+		String serviceReturn = contactService.delContact(contact_id);
+
+		if (serviceReturn.equals("삭제 에러"))
 		{
-			dao.delContact(contact_id);
-		} catch (Exception e)
+			model.addAttribute("errorMessage", serviceReturn);
+			return "list";
+		} else
 		{
-			e.printStackTrace();
+			return serviceReturn;
 		}
-		return "redirect:/contact/list";
 	}
 
 	@GetMapping("/login")
 	public String login(@ModelAttribute ContactDto dto, Model model)
 	{
-		String tempId = "";
-		String tempPw = "";
+		String serviceReturn = contactService.login(dto);
 
-		tempId = dto.getAccount_id();
-		tempPw = dto.getAccount_pw();
-		String re;
-
-		try
+		if (serviceReturn.equals("비밀번호가 일치하지 않습니다"))
 		{
-			if (dao.searchId(tempId))
-			{
-				if (dao.searchPw(tempId, tempPw))
-				{
-					accountId = tempId;
-					re = "redirect:/contact/list";
-				} else
-				{
-					model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다");
-					re = "login";
-				}
-			} else
-			{
-				model.addAttribute("errorMessage", "ID가 존재하지 않습니다");
-				re = "login";
-			}
-		} catch (Exception e)
+			model.addAttribute("errorMessage", serviceReturn);
+			return "login";
+		} else if (serviceReturn.equals("ID가 존재하지 않습니다"))
 		{
-			model.addAttribute("errorMessage", "로그인 중 오류가 발생했습니다");
-			re = "login";
-			e.printStackTrace();
+			model.addAttribute("errorMessage", serviceReturn);
+			return "login";
+		} else if (serviceReturn.equals("로그인 에러"))
+		{
+			model.addAttribute("errorMessage", serviceReturn);
+			return "login";
+		} else
+		{
+			return serviceReturn;
 		}
-		return re;
 	}
 
 	@GetMapping("/search")
 	@ResponseBody
 	public List<ContactDto> searchContact(@RequestParam String keyword)
 	{
-		try
-		{
-			List<ContactDto> searchResults = dao.searchContact(accountId, keyword);
-			return searchResults;
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			// 에러 처리 로직 추가
-			return Collections.emptyList();
-		}
+		return contactService.searchContact(keyword);
 	}
 
 	@GetMapping("/loginWindow")
-	public String loginWindow(Model model)
+	public String loginWindow()
 	{
 		return "login";
 	}

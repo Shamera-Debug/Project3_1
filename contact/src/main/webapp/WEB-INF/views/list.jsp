@@ -12,7 +12,7 @@
 <meta name="author"
 	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Hugo 0.118.2">
-<title>연락처 관리</title>
+<title>연락처 목록</title>
 
 <link rel="canonical"
 	href="https://getbootstrap.com/bootstrap/examples/dashboard/">
@@ -482,8 +482,7 @@ table.table td .add {
 				<div class="offcanvas-md offcanvas-end bg-body-tertiary"
 					tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
 					<div class="offcanvas-header">
-						<h5 class="offcanvas-title" id="sidebarMenuLabel">Company
-							name</h5>
+						<h5 class="offcanvas-title" id="sidebarMenuLabel"></h5>
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
 							aria-label="Close"></button>
@@ -609,30 +608,7 @@ table.table td .add {
 <!-- 연락처 추가 모달 끝 -->					
 					</div>
 				</div>
-
 				<div class="table-responsive small">
-				
-			<!-- 수정필요!!! 
-					<form action="/contact/searchContact" method="get">
-						 <select id="searchType">
-        					<option value="name">이름</option>
-        					<option value="number">번호</option>
-   						 </select>
-						<td colspan="2">
-							<input class="inputId" type="text" name="keyword" placeholder="검색어 입력">
-						</td>
-						<td>
-							<input class="submitBtn" type="submit" value="검색하기">
-						</td>
-					</form>
-			 수정필요!!! -->
-			<!-- <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <select id="searchType" class="custom-select">
-                    <option value="name">이름</option>
-                    <option value="phone">전화번호</option>
-                    다른 검색 유형을 추가할 수 있음
-                </select> -->
             <div class="input-group mb-3">
             <input type="text" id="searchInput" class="form-control" placeholder="검색어를 입력하세요">
         	</div>
@@ -672,17 +648,17 @@ table.table td .add {
 		<div class="modal-dialog">
 			<div class="modal-content">
 					<div class="modal-header">						
-						<h4 class="modal-title">Delete Employee</h4>
+						<h4 class="modal-title">연락처 삭제</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<p>Are you sure you want to delete these Records?</p>
-						<p class="text-warning"><small>This action cannot be undone.</small></p>
+						<p>정말로 연락처를 삭제하시겠습니까?</p>
+						<p class="text-warning"><small>삭제하시면 복구할 수 없습니다</small></p>
 					</div>
 				<form method="get" action="/contact/delContact/${contact.contact_id }">
 					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<button type="submit" class="btn btn-danger" value="Delete">Delete</button>
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="취소">
+						<button type="submit" class="btn btn-danger" value="Delete">삭제</button>
 					</div>
 				</form>
 			</div>
@@ -727,7 +703,7 @@ table.table td .add {
 						</div>					
 					</div>
 					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="취소">
 						<input type="submit" class="btn btn-info" value="Save">
 					</div>
 				</form>
@@ -736,7 +712,6 @@ table.table td .add {
 	</div>		
 <!-- 연락처 수정 모달 끝 -->					
 							</c:forEach>
-
 						</tbody>
 					</table>
 					<!-- 검색 결과를 표시할 영역 -->

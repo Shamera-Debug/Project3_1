@@ -192,7 +192,7 @@
             <div class="col-12">
               <label for="PW" class="form-label">패스워드</label>
               <div class="input-group has-validation">
-                <input type="password" pattern=".{11,11}" class="form-control" name="account_pw" id="account_pw" placeholder="PW" required="">
+                <input type="password" class="form-control" name="account_pw" id="account_pw" placeholder="PW" required="">
               <div class="invalid-feedback">
                   패스워드는 필수입니다
                 </div>
