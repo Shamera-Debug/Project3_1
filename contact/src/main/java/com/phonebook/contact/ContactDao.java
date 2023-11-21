@@ -223,12 +223,22 @@ public class ContactDao
 		return nickname;
 	}
 	
-	public ArrayList<ContactDto> searchName(String account_id, String name) throws Exception
+	public ArrayList<ContactDto> searchContact(String account_id, String keyword) throws Exception
 	{
 		Connection conn = open();
-		String sql = "SELECT c.contact_id, c.name, c.phone, c.address, g.groupnm, TO_CHAR(c.contact_regdt, 'YYYY-MM-DD') AS contact_regdt  	"
-				+	 "FROM contact c, cgroup g																								"
-				+	 "WHERE c.groupno = g.groupno AND c.account_id = '"+account_id+"'	AND c.name = '"+name+"'								";
+		String sql = "";
+		if(keyword.contains("010"))
+		{
+			sql = "SELECT c.contact_id, c.name, c.phone, c.address, g.groupnm, TO_CHAR(c.contact_regdt, 'YYYY-MM-DD') AS contact_regdt  	 "
+					+	 "FROM contact c, cgroup g																								 "
+					+	 "WHERE c.groupno = g.groupno AND c.account_id = '"+account_id+"'	AND c.phone LIKE '%"+keyword+"%'					 ";
+		} else
+		{
+			sql = "SELECT c.contact_id, c.name, c.phone, c.address, g.groupnm, TO_CHAR(c.contact_regdt, 'YYYY-MM-DD') AS contact_regdt  	 "
+					+	 "FROM contact c, cgroup g																								 "
+					+	 "WHERE c.groupno = g.groupno AND c.account_id = '"+account_id+"'	AND c.name LIKE '%"+keyword+"%'						 ";
+		}
+		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
 		ArrayList<ContactDto> contactList = new ArrayList<>();

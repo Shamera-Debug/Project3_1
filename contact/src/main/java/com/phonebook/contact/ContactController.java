@@ -1,6 +1,8 @@
 package com.phonebook.contact;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -217,37 +220,21 @@ public class ContactController
 		}
 		return re;
 	}
-	
-	@GetMapping("/searchContact")
-	public String searchContact(Model model, @RequestParam(value="type", required=false) String type, @RequestParam(value="keyword", required=false) String keyword)
+
+	@GetMapping("/search")
+	@ResponseBody
+	public List<ContactDto> searchContact(@RequestParam String keyword)
 	{
 		try
 		{
-			model.addAttribute("nickname", dao.searchNickname(accountId));
+			List<ContactDto> searchResults = dao.searchContact(accountId, keyword);
+			return searchResults;
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			// 에러 처리 로직 추가
+			return Collections.emptyList();
 		}
-		model.addAttribute("account_id", accountId);
-		ArrayList<ContactDto> list;
-		
-		
-		if(type.equals("name"))
-		{
-			try
-			{
-				list = dao.searchName(accountId, keyword);
-				model.addAttribute("listContact", list);
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-				model.addAttribute("error", "연락처 목록 에러");
-			}
-		} else
-		{
-			
-		}
-		return "redirect:/contact/list";
 	}
 
 	@GetMapping("/loginWindow")

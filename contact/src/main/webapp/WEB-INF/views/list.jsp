@@ -17,6 +17,61 @@
 <link rel="canonical"
 	href="https://getbootstrap.com/bootstrap/examples/dashboard/">
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+<script>
+        $(document).ready(function () {
+            // 검색어 입력이 발생할 때마다 검색 실행
+            $('#searchInput').on('input', function () {
+                searchContacts();
+            });
+
+            // 검색 함수
+            function searchContacts() {
+                var keyword = $('#searchInput').val();
+                var values = [];               
+                // Ajax 요청
+                $.ajax({
+                    type: 'GET',
+                    url: '/contact/search',
+                    data: {keyword: keyword},
+                    success: function (data) {
+                        // 검색 결과를 받아와서 화면에 업데이트
+                        updateTable(data);
+                    },
+                    error: function () {
+                        alert('검색 중 오류가 발생했습니다.');
+                    }
+                });
+            }
+
+            // 결과를 동적으로 업데이트하는 함수
+function updateTable(data) {
+    var tableBody = $('#contactTable tbody');
+    tableBody.empty(); // 기존 내용 비우기
+    if (Array.isArray(data)) {
+        // 데이터가 배열인 경우
+        $.each(data, function (index, contact) {
+            var row = '<tr>' +
+                '<td>' + contact.name + '</td>' +
+                '<td>' + contact.phone + '</td>' +
+                '<td>' + contact.address + '</td>' +
+                '<td>' + contact.groupnm + '</td>' +
+                '<td>' + contact.contact_regdt + '</td>' +
+                '<td>' +
+                    '<button class="btn btn-info" data-toggle="modal" data-target="#modalEdit_' + contact.contact_id + '"><i style="text-align: center;" class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>' +
+                    '<button class="btn btn-danger" data-toggle="modal" data-target="#modalDelete_' + contact.contact_id + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>' +
+                '</td>' +
+            '</tr>';
+            tableBody.append(row);
+        });
+    } 
+}
+        });
+    </script>
+
+
 
 
 <link rel="stylesheet"
@@ -27,7 +82,7 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script
@@ -557,20 +612,33 @@ table.table td .add {
 
 				<div class="table-responsive small">
 				
-			<!-- 수정필요!!! -->
+			<!-- 수정필요!!! 
 					<form action="/contact/searchContact" method="get">
-						<select name="type" class="type-box">
-							<option value="">검색 유형 선택</option>
-							<option value="name">이름</option>
-							<option value="phone">번호</option>
-						</select>
-						<td colspan="2"><input class="inputId" type="text"
-							name="keyword" placeholder="검색어 입력"></td>
-						<td><input class="submitBtn" type="submit" value="검색하기">
+						 <select id="searchType">
+        					<option value="name">이름</option>
+        					<option value="number">번호</option>
+   						 </select>
+						<td colspan="2">
+							<input class="inputId" type="text" name="keyword" placeholder="검색어 입력">
+						</td>
+						<td>
+							<input class="submitBtn" type="submit" value="검색하기">
 						</td>
 					</form>
-			<!-- 수정필요!!! -->
-					<table class="table table-striped table-sm">
+			 수정필요!!! -->
+			<!-- <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <select id="searchType" class="custom-select">
+                    <option value="name">이름</option>
+                    <option value="phone">전화번호</option>
+                    다른 검색 유형을 추가할 수 있음
+                </select> -->
+            <div class="input-group mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="검색어를 입력하세요">
+        	</div>
+			
+			
+		<table class="table table-striped table-sm" id="contactTable">
 						<thead>
 							<tr>
 								<th style="width:17%;" scope="col">이름</th>
@@ -671,6 +739,8 @@ table.table td .add {
 
 						</tbody>
 					</table>
+					<!-- 검색 결과를 표시할 영역 -->
+    				<div id="searchResult"></div>
 				</div>
 			</main>
 		</div>
